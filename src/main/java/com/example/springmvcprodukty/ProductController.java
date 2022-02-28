@@ -44,7 +44,7 @@ public class ProductController {
         return "index";
     }
 
-    @PostMapping("/dodaj")
+    @PostMapping("/")
     public String add(Product product) {
         productRepository.add(product);
         return "index";
