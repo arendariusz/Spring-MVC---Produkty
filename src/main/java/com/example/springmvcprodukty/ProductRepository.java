@@ -1,6 +1,7 @@
 package com.example.springmvcprodukty;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.ui.Model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,17 @@ public class ProductRepository {
             }
         }
         return filtered;
+    }
+
+    public double getSum(ProductCategory category) {
+        double sum;
+        if (category != null) {
+            sum = products.stream().filter(product -> product.getCategory().equals(category))
+                    .mapToDouble(Product::getPrice).sum();
+        } else {
+            sum = products.stream().mapToDouble(Product::getPrice).sum();
+        }
+        return sum;
     }
 
     public void add(Product product) {

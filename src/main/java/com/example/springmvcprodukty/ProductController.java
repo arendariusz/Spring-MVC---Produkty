@@ -20,22 +20,15 @@ public class ProductController {
     @GetMapping("/list")
     public String home(Model model, @RequestParam(required = false, name = "kategoria") ProductCategory category) {
         List<Product> products;
+        double priceSum = productRepository.getSum(category);
         if (category != null) {
             products = productRepository.findByCategory(category);
         } else {
             products = productRepository.findAll();
         }
         model.addAttribute("products", products);
-        getSum(model, products);
+        model.addAttribute("priceSum", priceSum);
         return "list";
-    }
-
-    private void getSum(Model model, List<Product> products) {
-        double sum = 0;
-        for (Product product : products) {
-            sum += product.getPrice();
-        }
-        model.addAttribute("priceSum", sum);
     }
 
     @GetMapping("/")
@@ -44,9 +37,9 @@ public class ProductController {
         return "index";
     }
 
-    @PostMapping("/dodaj")
+    @PostMapping("/")
     public String add(Product product) {
         productRepository.add(product);
-        return "index";
+        return "redirect:/";
     }
 }
